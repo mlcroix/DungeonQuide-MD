@@ -1,0 +1,16 @@
+@import '../../app/globals.scss';
+
+.header {
+    background-color: $primary-dark;
+}
+
+.logo-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    width: 600px;
+    color: $text-light;
+}

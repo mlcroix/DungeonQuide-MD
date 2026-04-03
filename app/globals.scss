@@ -1,0 +1,14 @@
+$base-color: #2C2C2C;
+$primary-dark: #612D53;
+$secondary-color: #853953;
+$text-light: #F3F4F4;
+
+// Breakpoints
+$mobile: 768px;
+$tablet: 1024px;
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: $base-color;
+}

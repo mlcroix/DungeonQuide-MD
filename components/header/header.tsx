@@ -4,8 +4,10 @@ import Logo from '@/components/logo';
 
 export default function Header() {
   return (
-    <div>
-      <Logo />
+    <div className='header'>
+      <div className='logo-wrapper'>
+        <Logo className='logo'/>
+      </div>
       Header Component
     </div>
   );
