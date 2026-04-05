@@ -32,7 +32,7 @@ async function getDirectoryStructure(path: string): Promise<ContentDirectory[]> 
  * Receive the directory structure of the content directory.
  * @returns Promise<ContentDirectory[] - the whole directory structure of the content folder.
  */
-export async function getAllFolders(): Promise<ContentDirectory[]> {
+export async function getContentDirectoryStructure(): Promise<ContentDirectory[]> {
   try {
     const contentRootDirectories: ContentDirectory[] = await getDirectoryStructure(contentDirectory);
     const stack: ContentDirectory[] = [];

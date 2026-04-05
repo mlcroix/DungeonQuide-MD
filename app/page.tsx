@@ -1,12 +1,9 @@
-import { useEffect, useState } from 'react';
-import { getAllFolders } from '@/lib/markdown';
+import ContentNavigator from "@/components/content-navigation";
 
-export default async function Home() {
-  const initialFolders = await getAllFolders();
-
+export default function Home() {
   return (
     <div>
-      {initialFolders}
+      <ContentNavigator />
     </div>
   );
 }
