@@ -16,11 +16,11 @@ export function ContentNavigatorClient({
     useState<ContentDirectory>(directory);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleDirectoryClick = async (subDirectory: ContentDirectory) => {
+  const handleDirectoryClick = async (directoryPath: string) => {
     setIsLoading(true);
     try {
       // Call the server action to get the next directory
-      const nextDirectory = await onNavigate(subDirectory.path);
+      const nextDirectory = await onNavigate(directoryPath);
       setCurrentDirectory(nextDirectory);
     } catch (error) {
       console.error("Failed to load directory:", error);
@@ -40,10 +40,22 @@ export function ContentNavigatorClient({
       </div>
       <div className="directories-list">
         <ul>
+          {currentDirectory.parentPath && (
+            <li key={currentDirectory.parentPath}>
+              <button
+                onClick={() =>
+                  handleDirectoryClick(currentDirectory.parentPath!)
+                }
+                className="directory-button back-button"
+              >
+                📁 ..
+              </button>
+            </li>
+          )}
           {currentDirectory.subDirectories.map((subDirectory) => (
             <li key={subDirectory.path}>
               <button
-                onClick={() => handleDirectoryClick(subDirectory)}
+                onClick={() => handleDirectoryClick(subDirectory.path)}
                 className="directory-button"
               >
                 📁 {subDirectory.name}

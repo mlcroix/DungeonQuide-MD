@@ -11,21 +11,26 @@ import { ContentDirectory, ContentFiles } from "@/types/LoreContent";
 const contentRootDirectory = path.join(process.cwd(), "content");
 
 /**
- * Receive the directory structure and convert it into an ContentDirectory object.
- * @param path - the path of the directory
- * @returns Promise<ContentDirectory[]> - the directory created by this function.
+ * Receive the directory structure and convert it into ContentDirectory objects.
+ * @param directoryPath - the path of the directory
+ * @returns Promise<ContentDirectory[]> - array of subdirectories
  */
-async function getSubDirectories(path: string): Promise<ContentDirectory[]> {
-  const directories = await readdir(path, { withFileTypes: true });
+async function getSubDirectories(directoryPath: string): Promise<ContentDirectory[]> {
+  const directories = await readdir(directoryPath, { withFileTypes: true });
+  
   const contentDirectories = directories
     .filter((entry) => entry.isDirectory())
-    .map(
-      (entry) =>
-        ({
-          name: entry.name,
-          path: entry.parentPath.replace(process.cwd(), "") + "\\" + entry.name,
-        }) as ContentDirectory,
-    );
+    .map((entry) => {
+      // Use the imported 'path' module (not shadowed anymore)
+      const fullPath = path.join(entry.parentPath, entry.name);
+      const relativePath = path.relative(process.cwd(), fullPath);
+      const normalizedPath = relativePath.replace(/\\/g, '/');
+      
+      return {
+        name: entry.name,
+        path: normalizedPath,
+      } as ContentDirectory;
+    });
 
   return contentDirectories;
 }
@@ -33,26 +38,33 @@ async function getSubDirectories(path: string): Promise<ContentDirectory[]> {
 
 /**
  * Receive the contentdirectory of the given path. When path is null, it will receive the Content folder root.
- * @param string|null directoryPath - the path of the directory.
+ * @param directoryPath - the path of the directory (relative to project root, or null for root)
  * @returns Promise<ContentDirectory> - the contentdirectory based on the given path.
  */
 export async function getContentDirectory(directoryPath: string | null): Promise<ContentDirectory> {
-  // when we don't give a directoryPath, assume we want to get the Content folder root.
-  if (!directoryPath) {
-    directoryPath = contentRootDirectory;
-  }
-
-  const subDirectories: ContentDirectory[] = await getSubDirectories(directoryPath);
-
+  const absolutePath = !directoryPath 
+    ? contentRootDirectory 
+    : path.join(process.cwd(), directoryPath);
+  
+  // Get subdirectories
+  const subDirectories: ContentDirectory[] = await getSubDirectories(absolutePath);
+  
+  // Calculate web-friendly paths
+  const webPath = path.relative(process.cwd(), absolutePath).replace(/\\/g, '/');
+  
+  // Calculate parent path (null if this is the root)
+  const isRoot = absolutePath === contentRootDirectory;
+  const parentPath = isRoot 
+    ? null 
+    : path.relative(process.cwd(), path.dirname(absolutePath)).replace(/\\/g, '/');
+  
   const contentDirectory = {
-    name: path.basename(directoryPath),
-    path: path.relative(process.cwd(), directoryPath).replace(/\\/g, '/'),
-    parentPath: contentRootDirectory == directoryPath ? null :  "meep",
+    name: path.basename(absolutePath),
+    path: webPath,
+    parentPath: parentPath,
     subDirectories: subDirectories,
     files: []
   };
-
-  console.log(contentDirectory);
   
   return contentDirectory;
 }

@@ -4,7 +4,7 @@ import { getDirectory } from './actions';
 
 export default async function ContentNavigator() {
   // Get the root directory
-  const rootDirectory = await getContentDirectory('./content');
+  const rootDirectory = await getContentDirectory(null);
   
   return (
     <ContentNavigatorClient 
