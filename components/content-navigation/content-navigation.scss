@@ -1,5 +1,8 @@
 @import '../../app/globals.scss';
 
 .content-navigator {
+    width: 300px;
+    padding: 20px;
+    background-color: $secondary-color;
     color: $text-light;
 }

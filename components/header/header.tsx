@@ -8,7 +8,6 @@ export default function Header() {
       <div className='logo-wrapper'>
         <Logo className='logo'/>
       </div>
-      Header Component
     </div>
   );
 }

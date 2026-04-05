@@ -1,1 +1,1 @@
-export { default } from './content-navigation';
+export { default } from './content-navigator.server';
