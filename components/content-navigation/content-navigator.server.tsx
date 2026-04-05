@@ -1,7 +1,15 @@
-import { getDirectoryContent } from '@/lib/markdown';
+import { getContentDirectory } from '@/lib/markdown';
 import { ContentNavigatorClient } from './content-navigator.client';
+import { getDirectory } from './actions';
 
 export default async function ContentNavigator() {
-  const contentDirectories = await getDirectoryContent(null);
-  return <ContentNavigatorClient initialDirectories={contentDirectories} />;
+  // Get the root directory
+  const rootDirectory = await getContentDirectory('./content');
+  
+  return (
+    <ContentNavigatorClient 
+      directory={rootDirectory}
+      onNavigate={getDirectory}  // Pass server action as callback
+    />
+  );
 }

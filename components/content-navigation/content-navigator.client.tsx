@@ -4,28 +4,54 @@ import { useState } from "react";
 import "./content-navigation.scss";
 
 type ContentNavigatorClientProps = {
-  initialDirectories: ContentDirectory[];
+  directory: ContentDirectory;
+  onNavigate: (path: string) => Promise<ContentDirectory>; // Callback to server
 };
 
 export function ContentNavigatorClient({
-  initialDirectories,
+  directory,
+  onNavigate,
 }: ContentNavigatorClientProps) {
-  const [selectedDirectory, setSelectedDirectory] = useState(null);
-  const [directories, setDirectories] = useState(initialDirectories);
+  const [currentDirectory, setCurrentDirectory] =
+    useState<ContentDirectory>(directory);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleDirectoryClick = async (subDirectory: ContentDirectory) => {
+    setIsLoading(true);
+    try {
+      // Call the server action to get the next directory
+      const nextDirectory = await onNavigate(subDirectory.path);
+      setCurrentDirectory(nextDirectory);
+    } catch (error) {
+      console.error("Failed to load directory:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className='content-navigator'>
-      <h1>Content</h1>
-      <ul>
-        {directories.map((dir) => (
-          <li key={dir.path}>
-            <button onClick={() => setSelectedDirectory(dir)}>
-              {dir.name}
-            </button>
-          </li>
-        ))}
-        {selectedDirectory && <div>Selected: {selectedDirectory.name}</div>}
-      </ul>
+    <div className="content-navigator">
+      <div className="nav-header">
+        <h1>Content</h1>
+      </div>
+      <div className="directories-list">
+        <ul>
+          {currentDirectory.subDirectories.map((subDirectory) => (
+            <li key={subDirectory.path}>
+              <button
+                onClick={() => handleDirectoryClick(subDirectory)}
+                className="directory-button"
+              >
+                📁 {subDirectory.name}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
