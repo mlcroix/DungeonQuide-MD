@@ -12,3 +12,23 @@ body {
     padding: 0;
     background-color: $base-color;
 }
+
+// Main container - THIS is where you add padding
+.main-content {
+  padding: 1rem;  // Mobile default
+  
+  // Tablet
+  @media (min-width: $mobile) {
+    padding: 1.5rem;
+  }
+  
+  // Desktop
+  @media (min-width: $tablet) {
+    padding: 2rem;
+  }
+  
+  // Large screens
+  @media (min-width: 1440px) {
+    padding: 2rem calc((100% - 1200px) / 2);  // Centered with auto margins
+  }
+}
