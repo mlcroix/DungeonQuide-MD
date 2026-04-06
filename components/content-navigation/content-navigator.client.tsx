@@ -62,6 +62,16 @@ export function ContentNavigatorClient({
               </button>
             </li>
           ))}
+          {currentDirectory.files.map((file) => (
+            <li key={file.path}>
+              <button
+                onClick={() => handleDirectoryClick(file.path)}
+                className="directory-button"
+              >
+                📄 {file.name}
+              </button>
+            </li>
+          ))}
         </ul>
       </div>
     </div>
