@@ -3,11 +3,12 @@ export type ContentDirectory = {
     path: string;
     parentPath: string|null;
     subDirectories: ContentDirectory[];
-    files: ContentFiles[];
+    files: ContentFile[];
 };
 
-export type ContentFiles = {
+export type ContentFile = {
     name: string;
     type: string;
+    path: string;
     parentPath: string;
 };

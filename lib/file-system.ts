@@ -1,12 +1,7 @@
 import "server-only";
-import fs from "fs";
 import { readdir } from "fs/promises";
 import path from "path";
-import matter from "gray-matter";
-import { remark } from "remark";
-import html from "remark-html";
-import remarkGfm from "remark-gfm";
-import { ContentDirectory, ContentFiles } from "@/types/LoreContent";
+import { ContentDirectory, ContentFile } from "@/types/LoreContent";
 
 const contentRootDirectory = path.join(process.cwd(), "content");
 
@@ -21,7 +16,7 @@ async function getSubDirectories(directoryPath: string): Promise<ContentDirector
   const contentDirectories = directories
     .filter((entry) => entry.isDirectory())
     .map((entry) => {
-      // Use the imported 'path' module (not shadowed anymore)
+      // Use the imported 'path' module so it will work both on windows and Linux
       const fullPath = path.join(entry.parentPath, entry.name);
       const relativePath = path.relative(process.cwd(), fullPath);
       const normalizedPath = relativePath.replace(/\\/g, '/');
@@ -35,6 +30,33 @@ async function getSubDirectories(directoryPath: string): Promise<ContentDirector
   return contentDirectories;
 }
 
+/**
+ * Receive the files of the given directory
+ * @param directoryPath - the path of the directory
+ * @returns Promise<ContentFile[]> - array of files
+ */
+async function getDirectoryFiles(directoryPath: string): Promise<ContentFile[]> {
+     const directories = await readdir(directoryPath, { withFileTypes: true });
+  
+  const contentFiles = directories
+    .filter((entry) => entry.isFile())
+    .map((entry) => {
+      // Use the imported 'path' module so it will work both on windows and Linux
+      const fullPath = path.join(entry.parentPath, entry.name);
+      const relativePath = path.relative(process.cwd(), fullPath);
+      const normalizedPath = relativePath.replace(/\\/g, '/');
+      
+      return {
+        name: entry.name,
+        type: "file",
+        path: normalizedPath,
+        parentPath: directoryPath,
+      } as ContentFile;
+    });
+    
+    return contentFiles;
+}
+
 
 /**
  * Receive the contentdirectory of the given path. When path is null, it will receive the Content folder root.
@@ -46,8 +68,9 @@ export async function getContentDirectory(directoryPath: string | null): Promise
     ? contentRootDirectory 
     : path.join(process.cwd(), directoryPath);
   
-  // Get subdirectories
+  // Get subdirectories and files
   const subDirectories: ContentDirectory[] = await getSubDirectories(absolutePath);
+  const subFiles: ContentFile[] = await getDirectoryFiles(absolutePath);
   
   // Calculate web-friendly paths
   const webPath = path.relative(process.cwd(), absolutePath).replace(/\\/g, '/');
@@ -63,7 +86,7 @@ export async function getContentDirectory(directoryPath: string | null): Promise
     path: webPath,
     parentPath: parentPath,
     subDirectories: subDirectories,
-    files: []
+    files: subFiles
   };
   
   return contentDirectory;

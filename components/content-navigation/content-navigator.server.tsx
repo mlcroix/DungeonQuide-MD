@@ -1,4 +1,4 @@
-import { getContentDirectory } from '@/lib/markdown';
+import { getContentDirectory } from '@/lib/file-system';
 import { ContentNavigatorClient } from './content-navigator.client';
 import { getDirectory } from './actions';
 
