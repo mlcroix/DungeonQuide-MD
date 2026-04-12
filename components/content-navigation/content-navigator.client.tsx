@@ -42,9 +42,9 @@ export function ContentNavigatorClient({
         <h1>Content</h1>
       </div>
       <div className="directories-list">
-        <ul>
+        <ul className="button-list">
           {currentDirectory.parentPath && (
-            <li key={currentDirectory.parentPath}>
+            <li key={currentDirectory.parentPath} className="button-list-item">
               <NavigatorButton
                 label="..."
                 icon="/folder.svg"
@@ -53,7 +53,7 @@ export function ContentNavigatorClient({
             </li>
           )}
           {currentDirectory.subDirectories.map((subDirectory) => (
-            <li key={subDirectory.path}>
+            <li key={subDirectory.path} className="button-list-item">
               <NavigatorButton
                 label={subDirectory.name}
                 icon="/folder.svg"
@@ -62,7 +62,7 @@ export function ContentNavigatorClient({
             </li>
           ))}
           {currentDirectory.files.map((file) => (
-            <li key={file.path}>
+            <li key={file.path} className="button-list-item">
               <NavigatorButton
                 label={file.name}
                 icon="/file.svg"

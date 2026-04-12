@@ -1,8 +1,16 @@
 @import '../../app/globals.scss';
 
 .content-navigator {
-    width: 300px;
+    width: 200px;
     padding: 20px;
-    background-color: $secondary-color;
+    background-color: $primary-dark;
     color: $text-light;
+}
+
+.button-list {
+    list-style-type: none;
+}
+
+.button-list-item {
+    margin: 10px;
 }

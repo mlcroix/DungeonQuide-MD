@@ -14,9 +14,9 @@ export default function NavigatorButton({
   onClickFunction
 }: NavigatorButtonProps) {
   return (
-    <button onClick={onClickFunction}>
+    <button onClick={onClickFunction} className='button'>
         <Image src={icon} alt={label} width={20} height={20}/>
-        {label}
+        <b>{label}</b>
     </button>
   );
 }

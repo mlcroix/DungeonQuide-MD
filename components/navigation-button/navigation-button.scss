@@ -1,0 +1,20 @@
+@import '../../app/globals.scss';
+
+.button {
+    height: 30px;
+    padding: 10px;
+    background-color: $secondary-color;
+    color: $text-light;
+
+    border: none;
+    border-radius: 5px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    gap: 8px;
+
+    &:hover {
+        background-color: $secondary-color-hover;
+    }
+}

@@ -3,6 +3,9 @@ $primary-dark: #612D53;
 $secondary-color: #853953;
 $text-light: #F3F4F4;
 
+$primary-dark-hover: darken(#612D53, 10%);
+$secondary-color-hover: darken(#853953, 10%);
+
 // Breakpoints
 $mobile: 768px;
 $tablet: 1024px;
