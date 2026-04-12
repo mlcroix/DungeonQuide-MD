@@ -1,6 +1,9 @@
 "use client";
 import { ContentDirectory } from "@/types/LoreContent";
 import { useState } from "react";
+import NavigatorButton from "../navigation-button";
+import fileIcon from '@/public/file.svg';
+import folderIcon from '@/public/folder.svg';
 import "./content-navigation.scss";
 
 type ContentNavigatorClientProps = {
@@ -42,34 +45,29 @@ export function ContentNavigatorClient({
         <ul>
           {currentDirectory.parentPath && (
             <li key={currentDirectory.parentPath}>
-              <button
-                onClick={() =>
-                  handleDirectoryClick(currentDirectory.parentPath!)
-                }
-                className="directory-button back-button"
-              >
-                📁 ..
-              </button>
+              <NavigatorButton
+                label="..."
+                icon="/folder.svg"
+                onClickFunction = {() => handleDirectoryClick(currentDirectory.parentPath!)}
+              />
             </li>
           )}
           {currentDirectory.subDirectories.map((subDirectory) => (
             <li key={subDirectory.path}>
-              <button
-                onClick={() => handleDirectoryClick(subDirectory.path)}
-                className="directory-button"
-              >
-                📁 {subDirectory.name}
-              </button>
+              <NavigatorButton
+                label={subDirectory.name}
+                icon="/folder.svg"
+                onClickFunction = {() => handleDirectoryClick(subDirectory.path)}
+              />
             </li>
           ))}
           {currentDirectory.files.map((file) => (
             <li key={file.path}>
-              <button
-                onClick={() => handleDirectoryClick(file.path)}
-                className="directory-button"
-              >
-                📄 {file.name}
-              </button>
+              <NavigatorButton
+                label={file.name}
+                icon="/file.svg"
+                onClickFunction = {() => handleDirectoryClick(currentDirectory.parentPath!)}
+              />
             </li>
           ))}
         </ul>
