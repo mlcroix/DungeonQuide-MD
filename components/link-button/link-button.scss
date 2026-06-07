@@ -1,0 +1,11 @@
+@import '../../app/globals.scss';
+
+.link-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    color: $text-light;
+    border-radius: 5px;
+    text-decoration: underline;
+}
