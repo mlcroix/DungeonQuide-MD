@@ -1,26 +1,24 @@
 services:
   nextjs:
+    user: "1000:1000"
     build: .
     ports:
       - "3000:3000"
-    environment:
-      - DATABASE_URL=mysql://nextuser:nextpass@db:3306/nextdb
     env_file:
-      - .env.local
+      - .env
     depends_on:
       db:
         condition: service_healthy
     volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/.next
+    - .:/app
+    - /app/node_modules
 
   db:
     image: mysql:8.0
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_DATABASE: nextdb
+      MYSQL_DATABASE: dungeonguide-local
       MYSQL_USER: nextuser
       MYSQL_PASSWORD: nextpass
     ports:
