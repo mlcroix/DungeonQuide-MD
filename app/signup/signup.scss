@@ -1,0 +1,19 @@
+@import '../../app/globals.scss';
+
+.sign-up-wrapper {
+    display: grid;
+    place-items: center;
+    height: 80vh;
+}
+
+.sign-up-component {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 30px;
+    background-color: $primary-dark;
+    color: $text-light;
+    box-shadow: 5px 10px 4px rgba(0, 0, 0, 0.25);
+}
