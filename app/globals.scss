@@ -1,13 +1,13 @@
-$base-color: #2C2C2C;
-$primary-dark: #612D53;
-$secondary-color: #853953;
+$base-color: #D9D9D9;
+$primary-dark: #284B63;
+$secondary-color: #3C6E71;
 $text-light: #F3F4F4;
 $text-error: #FF4D4F;
 $text-success: #52C41A;
 $text-warning: #FAAD14;
 
-$primary-dark-hover: darken(#612D53, 10%);
-$secondary-color-hover: darken(#853953, 10%);
+$primary-dark-hover: darken($primary-dark, 10%);
+$secondary-color-hover: darken($secondary-color, 10%);
 
 // Breakpoints
 $mobile: 768px;
@@ -63,7 +63,6 @@ body {
   background-color: $secondary-color;
   border: 1px solid $primary-dark;
   color: $text-light;
-  box-shadow: 3px 5px 4px rgba(0, 0, 0, 0.25);
 
   &::placeholder {
     color: $text-light;
