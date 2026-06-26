@@ -1,24 +1,19 @@
 FROM node:26-alpine
 
+
 WORKDIR /app
 
-# Copy package files
 COPY package*.json ./
-# Remove the yarn.lock line since you're using npm
-
-# Install dependencies
 RUN npm install
 
-# Copy application code
+COPY prisma ./prisma
+RUN npx prisma generate
+
 COPY . .
 
-# Build the Next.js application
 RUN npm run build
 
 RUN chown -R node:node /app
 USER node
 
-# Expose port
-EXPOSE 3000
-# Start the application
 CMD ["npm", "run", "dev"]

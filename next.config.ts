@@ -1,14 +1,9 @@
-/** @type {import('next').NextConfig} */
+import 'dotenv/config';
+import { defineConfig } from 'prisma/config';
 
-const nextConfig = {
-  typescript: {
-    // Allow production builds to complete even with type errors
-    ignoreBuildErrors: true,
+export default defineConfig({
+  schema: 'prisma/schema.prisma',
+  datasource: {
+      url: process.env.DATABASE_URL!,
   },
-  eslint: {
-    // Also ignore ESLint errors during build
-    ignoreDuringBuilds: true,
-  },
-}
-
-module.exports = nextConfig
+});
