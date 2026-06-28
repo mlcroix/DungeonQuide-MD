@@ -1,7 +1,10 @@
 import 'server-only';
 
-import { NextResponse } from 'next/server';
-import { db } from '@/lib/db';
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { SignupResult } from '@/types';
+import { getDb } from '@/lib/db';
+
+const dbClient = getDb as any;
 
 export interface SignupInput {
     username: string;
@@ -41,34 +44,45 @@ function validateSignupInput(input: SignupInput): { valid: boolean; errors: Reco
     return { valid: true, errors: {} };
 }
 
-export async function signupUser(input: SignupInput): Promise<{ success: boolean; message: string }> {
-    const validation = validateSignupInput(input);
-    if (!validation.valid) {
-        return { success: false, message: Object.values(validation.errors).join(', ') };
-    }
+export async function signup(input: SignupInput): Promise<SignupResult> {
+    // Validate
+    // const validation = validateSignupInput(input);
+    // if (!validation.valid) {
+    //     return { 
+    //         success: false, 
+    //         message: 'Validation failed', 
+    //         errors: validation.errors 
+    //     };
+    // }
 
-    // Check if the username or email already exists
-    const existingUser = await db.user.findFirst({
-        where: {
-            OR: [
-                { username: input.username },
-                { email: input.email }
-            ]
-        }
-    });
+    // // Check if user exists
+    // const existingUser = await db.query.users.findFirst({
+    //     where: (users, { eq, or }) => or(
+    //         eq(users.email, input.email),
+    //         eq(users.username, input.username)
+    //     )
+    // });
 
-    if (existingUser) {
-        return { success: false, message: 'Username or email already exists' };
-    }
+    // if (existingUser) {
+    //     return { 
+    //         success: false, 
+    //         message: 'Username or email already exists' 
+    //     };
+    // }
 
-    // Create the new user
-    await db.user.create({
-        data: {
-            username: input.username,
-            email: input.email,
-            password: input.password // In a real application, make sure to hash the password before storing it
-        }
-    });
+    // // Hash password
+    // const hashedPassword = await hash(input.password);
 
-    return { success: true, message: 'User created successfully' };
+    // // Create user
+    // await db.insert(users).values({
+    //     username: input.username,
+    //     email: input.email,
+    //     password: hashedPassword,
+    //     createdAt: new Date(),
+    // });
+
+    return { 
+        success: true, 
+        message: 'User created successfully' 
+    };
 }

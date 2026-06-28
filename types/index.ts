@@ -10,3 +10,10 @@ export type {
   SessionAttendee, 
   SessionSummary, 
 } from './Session';
+
+export type {
+  ApiResponse,
+  SignupResponse,
+  SignupInput,
+  SignupResult
+} from './api';

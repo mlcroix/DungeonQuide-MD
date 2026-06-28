@@ -1,15 +1,28 @@
-import { NextResponse } from 'next/server';
-import { signupUser } from '@/lib/auth/signup';
+import { NextRequest, NextResponse } from 'next/server';
+import { signup } from '@/lib/auth/signup';
 
-export async function POST(request: Request) {
-  const body = await request.json();
-  const { username, email, password } = body;
+export async function POST(request: NextRequest) {
+    try {
+        const body = await request.json();
+        const result = await signup(body);
 
-  const result = await signupUser({ username, email, password });
+        if (!result.success) {
+            return NextResponse.json(
+                { message: result.message, errors: result.errors },
+                { status: 400 }
+            );
+        }
 
-  if (!result.success) {
-    return NextResponse.json({ message: result.message }, { status: 400 });
-  }
+        return NextResponse.json(
+            { message: result.message },
+            { status: 201 }
+        );
 
-  return NextResponse.json({ message: 'User created' }, { status: 201 });
+    } catch (error) {
+        console.error('Signup route error:', error);
+        return NextResponse.json(
+            { message: 'Internal server error' },
+            { status: 500 }
+        );
+    }
 }
