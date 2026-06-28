@@ -1,20 +1,8 @@
-import 'server-only';
-import { PrismaClient } from '@prisma/client';
+import mysql from 'mysql2/promise';
+import { drizzle } from 'drizzle-orm/mysql2';
 
-const globalForPrisma = globalThis as unknown as {
-  prisma?: PrismaClient;
-};
+const connection = await mysql.createConnection({
+  uri: process.env.DATABASE_URL!,
+});
 
-function createClient() {
-  return new PrismaClient({
-    accelerateUrl: process.env.DATABASE_URL,
-    log: ['error'],
-  });
-}
-
-export const db =
-  globalForPrisma.prisma ?? createClient();
-
-if (process.env.NODE_ENV !== 'production') {
-  globalForPrisma.prisma = db;
-}
+export const db = drizzle(connection);

@@ -13,23 +13,3 @@ After that, you could start the project by running the following command:
 ```
 npm run dev
 ```
-
-
-## Prisma
-Inside this project, we make use of Primsma for database managment. 
-In order to init the database run the following command:
-
-### Create new migration
-```
-docker compose exec nextjs npx prisma migrate dev --name add_new_feature
-```
-
-### Deploy pending migrations
-```
-docker compose exec nextjs npx prisma migrate deploy
-```
-
-### Reset database migrations
-```
-docker compose exec nextjs npx prisma migrate reset
-```
