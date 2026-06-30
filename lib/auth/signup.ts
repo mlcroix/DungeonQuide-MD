@@ -3,8 +3,10 @@ import 'server-only';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { SignupResult } from '@/types';
 import { getDb } from '@/lib/db';
+import { users } from '@/db/schema';
+import { eq, or } from 'drizzle-orm';
 
-const dbClient = getDb as any;
+const db = getDb();
 
 export interface SignupInput {
     username: string;
@@ -46,40 +48,39 @@ function validateSignupInput(input: SignupInput): { valid: boolean; errors: Reco
 
 export async function signup(input: SignupInput): Promise<SignupResult> {
     // Validate
-    // const validation = validateSignupInput(input);
-    // if (!validation.valid) {
-    //     return { 
-    //         success: false, 
-    //         message: 'Validation failed', 
-    //         errors: validation.errors 
-    //     };
-    // }
+    const validation = validateSignupInput(input);
+    if (!validation.valid) {
+        return { 
+            success: false, 
+            message: 'Validation failed', 
+            errors: validation.errors 
+        };
+    }
 
     // // Check if user exists
-    // const existingUser = await db.query.users.findFirst({
-    //     where: (users, { eq, or }) => or(
-    //         eq(users.email, input.email),
-    //         eq(users.username, input.username)
-    //     )
-    // });
+    const existingUsers = await db.select()
+                                .from(users)
+                                .where(
+                                    or(
+                                        eq(users.username, input.username),
+                                        eq(users.email, input.email)
+                                    )
+                                )
+                                .limit(1);
 
-    // if (existingUser) {
-    //     return { 
-    //         success: false, 
-    //         message: 'Username or email already exists' 
-    //     };
-    // }
+    const existingUser = existingUsers[0] || null;
+    if (existingUser) {
+        return { 
+            success: false, 
+            message: 'Username or email already exists' 
+        };
+    }
 
     // // Hash password
     // const hashedPassword = await hash(input.password);
 
-    // // Create user
-    // await db.insert(users).values({
-    //     username: input.username,
-    //     email: input.email,
-    //     password: hashedPassword,
-    //     createdAt: new Date(),
-    // });
+    const createdUser = await db.insert(users)
+                                .values(input);
 
     return { 
         success: true, 
