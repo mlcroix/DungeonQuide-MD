@@ -33,3 +33,14 @@ export interface SignupResult {
         };
     };
 }
+
+export interface LoginInput {
+    username: string;
+    password: string;
+}
+
+export interface LoginResult {
+    success: boolean;
+    message: string;
+    errors?: Record<string, string>;
+}

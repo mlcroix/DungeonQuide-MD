@@ -1,18 +1,11 @@
 import 'server-only';
 
-import type { NextApiRequest, NextApiResponse } from 'next'
-import { SignupResult } from '@/types';
+import { SignupResult, SignupInput } from '@/types';
 import { getDb } from '@/lib/db';
 import { users } from '@/db/schema';
 import { eq, or } from 'drizzle-orm';
 
 const db = getDb();
-
-export interface SignupInput {
-    username: string;
-    email: string;
-    password: string;
-}
 
 function validateEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
