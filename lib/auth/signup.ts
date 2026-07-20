@@ -1,11 +1,9 @@
 import 'server-only';
 
 import { SignupResult, SignupInput } from '@/types';
-import { getDb } from '@/lib/db';
-import { users } from '@/db/schema';
-import { eq, or } from 'drizzle-orm';
+import { UserRepository } from '../repositories/user.repository';
 
-const db = getDb();
+const userRepository = new UserRepository();
 
 function validateEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -51,15 +49,7 @@ export async function signup(input: SignupInput): Promise<SignupResult> {
     }
 
     // // Check if user exists
-    const existingUsers = await db.select()
-                                .from(users)
-                                .where(
-                                    or(
-                                        eq(users.username, input.username),
-                                        eq(users.email, input.email)
-                                    )
-                                )
-                                .limit(1);
+    const existingUsers = await userRepository.findByUsernameOrEmail(input.username, input.email);
 
     const existingUser = existingUsers[0] || null;
     if (existingUser) {
@@ -72,8 +62,7 @@ export async function signup(input: SignupInput): Promise<SignupResult> {
     // // Hash password
     // const hashedPassword = await hash(input.password);
 
-    const createdUser = await db.insert(users)
-                                .values(input);
+    const createdUser = await userRepository.createUser(input);
 
     return { 
         success: true, 
