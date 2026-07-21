@@ -2,6 +2,7 @@ import 'server-only';
 
 import { SignupResult, SignupInput } from '@/types';
 import { UserRepository } from '../repositories/user.repository';
+import { hashPassword } from '../password';
 
 const userRepository = new UserRepository();
 
@@ -49,9 +50,7 @@ export async function signup(input: SignupInput): Promise<SignupResult> {
     }
 
     // // Check if user exists
-    const existingUsers = await userRepository.findByUsernameOrEmail(input.username, input.email);
-
-    const existingUser = existingUsers[0] || null;
+    const existingUser = await userRepository.findByUsernameOrEmail(input.username, input.email);
     if (existingUser) {
         return { 
             success: false, 
@@ -60,9 +59,10 @@ export async function signup(input: SignupInput): Promise<SignupResult> {
     }
 
     // // Hash password
-    // const hashedPassword = await hash(input.password);
+    const hashedPassword = await hashPassword(input.password);
 
-    const createdUser = await userRepository.createUser(input);
+    // create user
+    const createdUser = await userRepository.createUser({ ...input, password: hashedPassword });
 
     return { 
         success: true, 

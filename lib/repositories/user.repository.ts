@@ -19,14 +19,11 @@ export class UserRepository {
         return existingUsers[0] || null;
     }
 
-    async findByUsernameAndPassword(username: string, password: string) {
+    async findByUsername(username: string) {
         const existingUsers = await db.select()
             .from(users)
             .where(
-                and(
-                    eq(users.username, username),
-                    eq(users.password, password)
-                )
+                eq(users.username, username)
             )
             .limit(1);
             
