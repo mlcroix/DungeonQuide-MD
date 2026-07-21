@@ -1,3 +1,5 @@
+import { User } from "./User";
+
 export interface ApiResponse<T = unknown> {
     success: boolean;
     message: string;
@@ -42,5 +44,6 @@ export interface LoginInput {
 export interface LoginResult {
     success: boolean;
     message: string;
+    user: User | null;
     errors?: Record<string, string>;
 }

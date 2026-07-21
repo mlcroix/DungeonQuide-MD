@@ -13,3 +13,13 @@ After that, you could start the project by running the following command:
 ```
 npm run dev
 ```
+
+Generate database:
+```
+docker compose exec nextjs npx drizzle-kit generate
+```
+
+run migrations:
+```
+docker compose exec nextjs npx drizzle-kit migrate
+```
