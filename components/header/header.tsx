@@ -14,6 +14,15 @@ export default function Header() {
     setUserData(cookies.get('user_data'));
   }, []);
 
+  const handleLogout = async () => {
+    const response = await fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+  }
+
   const mainNavItems = [
     { label: 'News', href: '/news' },
     { label: 'Campaigns', href: '/campaigns' },
@@ -25,7 +34,7 @@ export default function Header() {
     ? [
         { label: 'Profile', href: '/profile' },
         { label: 'Settings', href: '/settings' },
-        { label: 'Logout', href: '/logout' }
+        { label: 'Logout', href: '/', onClickFunction: handleLogout }
       ]
     : [
         { label: 'Login', href: '/login' },

@@ -5,6 +5,7 @@ type NavItem = {
   label: string;
   href: string;
   icon?: string;
+  onClickFunction?: () => void;
 };
 
 type PageNavigationProps = {
@@ -21,6 +22,7 @@ export default function PageNavigation({ navItems, className = '' }: PageNavigat
           label={item.label}
           href={item.href}
           icon={item.icon}
+          onClickFunction={item.onClickFunction}
         />
       ))}
     </div>
