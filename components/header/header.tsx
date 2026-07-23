@@ -4,24 +4,10 @@ import Link from 'next/link';
 import './header.scss';
 import Logo from '@/components/logo';
 import PageNavigation from '../page-navigation/page-navigation';
-import cookies from 'js-cookie';
-import { useEffect, useState } from 'react';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Header() {
-  const [userData, setUserData] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    setUserData(cookies.get('user_data'));
-  }, []);
-
-  const handleLogout = async () => {
-    const response = await fetch('/api/auth/logout', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
-  }
+  const { user, isLoggedIn, loading, logout } = useAuth();
 
   const mainNavItems = [
     { label: 'News', href: '/news' },
@@ -30,11 +16,11 @@ export default function Header() {
     { label: 'Community', href: '/community' }
   ];
   
-  const userNavItems = userData
+  const userNavItems = isLoggedIn && user
     ? [
         { label: 'Profile', href: '/profile' },
         { label: 'Settings', href: '/settings' },
-        { label: 'Logout', href: '/', onClickFunction: handleLogout }
+        { label: 'Logout', href: '/', onClickFunction: () => logout() }
       ]
     : [
         { label: 'Login', href: '/login' },

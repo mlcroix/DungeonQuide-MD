@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from '@/components/header';
 import Footer from '@/components/footer';
+import { AuthProvider } from '@/context/AuthContext';
 import "./globals.scss";
 
 export const metadata: Metadata = {
@@ -16,11 +17,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header/>
-        <main className="main-content">
-          {children}
-        </main>
-        <Footer/>
+        <AuthProvider>
+          <Header/>
+          <main className="main-content">
+            {children}
+          </main>
+          <Footer/>
+        </AuthProvider>
       </body>
     </html>
   );
