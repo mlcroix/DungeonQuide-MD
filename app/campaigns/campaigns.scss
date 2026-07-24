@@ -1,0 +1,22 @@
+@use '../../app/globals.scss' as *;
+.campaigns-content-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.campaigns-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.campaigns-options-wrapper {
+    height: 300px;
+    background-color:aqua;
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}

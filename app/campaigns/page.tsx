@@ -1,15 +1,18 @@
+import CampaignJoin from "@/components/campaign-join";
 import CampaignNew from "@/components/campaign-new";
+import "./campaigns.scss";
 
 export default function Campaigns() {
   return (
     <div>
-        <div className="campaigns-wrapper">
-            campaigns
-        </div>
-        <div className="new-campaign-wrapper">
-          <CampaignNew />
-            <div className="join-campaign-wrapper">
-                <h2>Join Existing Campaign</h2>
+        <h1>Campaigns</h1>
+        <div className="campaigns-content-wrapper">
+            <div className="campaigns-container">
+                campaigns
+            </div>
+            <div className="campaigns-options-wrapper">
+                <CampaignNew />
+                <CampaignJoin />
             </div>
         </div>
     </div>
