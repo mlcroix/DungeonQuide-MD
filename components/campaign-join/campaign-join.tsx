@@ -9,12 +9,13 @@ export default function CampaignJoin() {
             </div>
             <div>
                 <form className="campaign-join-form">
-                    <input type="text" placeholder="Enter Campaign Code" />
+                    <input type="text" className="input-field" placeholder="Enter Campaign Code" />
                     <button className="button">Join Campaign</button>
                 </form>
             </div>
             <div className="campaign-join-text">
-                <p>Don't have a campaign code? Ask your Dungeon Master for one!</p>
+                <p>Don't have a campaign code?</p>
+                <p>Ask your Dungeon Master for the code to join their campaign.</p>
             </div>
         </div>
     );

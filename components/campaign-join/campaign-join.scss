@@ -27,5 +27,10 @@
 
 .campaign-join-text {
     text-align: center;
+}
 
+.campaign-join-form {
+    display: grid;
+    place-items: center;
+    gap: 10px;
 }
