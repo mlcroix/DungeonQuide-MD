@@ -1,0 +1,30 @@
+@use '../../app/globals.scss' as *;
+
+.campaign-new-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    padding-bottom: 20px;
+    background-color: $primary-dark;
+    color: $text-light;
+    box-shadow: 5px 10px 4px rgba(0, 0, 0, 0.25);
+
+    & > h1 {
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+    & > p {
+        text-align: center;
+    }
+
+    .button {
+        justify-self: center;
+    }
+}
+
+.campaign-new-text {
+    text-align: center;
+
+}
